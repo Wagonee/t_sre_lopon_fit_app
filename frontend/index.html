@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<title>LOPON — ваш проводник к цели</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Crect width=%22640%22 height=%22640%22 rx=%22120%22 fill=%22%23F0CC00%22/%3E%3Cpath transform=%22translate%28-10,-540%29%22 fill=%22%23000%22 fill-rule=%22evenodd%22 d=%22M202 810 L216 782 L138 716 L248 738 L347 580 L437 627 L398 658 L404 690 L361 693 L400 734 L356 739 L434 792 L432 764 L455 759 L424 726 L473 725 L442 691 L505 690 L479 648 L565 693 L379 1012 L87 790 Z M263 824 L235 820 L235 821 L259 833 L247 856 L249 855 L268 843 L269 861 L270 861 L278 838 L304 859 L305 858 L285 830 L316 840 L316 839 L289 821 L321 805 L320 804 L287 812 L298 788 L297 787 L277 811 L272 783 L271 783 L266 815 L249 784 L248 784 Z%22/%3E%3C/svg%3E">
+<script src="/theme-init.js"></script>
+</head>
+<body>
+<header>
+  <a class="logo" href="/" title="LOPON — ваш проводник к цели"><svg viewBox="70 45 1000 985" width="40" height="40" aria-hidden="true"><path d="M410 735 L590 440 L645 835 L740 455 L985 690 L800 95 L1045 290" fill="none" stroke="#F0CC00" stroke-width="62" stroke-linecap="round" stroke-linejoin="round"/><path d="M202 810 L216 782 L138 716 L248 738 L347 580 L437 627 L398 658 L404 690 L361 693 L400 734 L356 739 L434 792 L432 764 L455 759 L424 726 L473 725 L442 691 L505 690 L479 648 L565 693 L379 1012 L87 790 Z M263 824 L235 820 L235 821 L259 833 L247 856 L249 855 L268 843 L269 861 L270 861 L278 838 L304 859 L305 858 L285 830 L316 840 L316 839 L289 821 L321 805 L320 804 L287 812 L298 788 L297 787 L277 811 L272 783 L271 783 L266 815 L249 784 L248 784 Z" fill="currentColor" fill-rule="evenodd"/></svg><span><b>LOPON</b><i>ваш проводник к цели</i></span></a>
+  <nav id="nav" hidden>
+    <button data-v="rides" class="on">Заезды</button>
+    <button data-v="ride">Разбор</button>
+    <button data-v="week">Неделя</button>
+    <button data-v="trends">Тренды</button>
+    <button data-v="settings">Настройки</button>
+  </nav>
+  <span id="user" class="user" hidden></span>
+  <button id="logout" class="link" hidden>Выйти</button>
+  <button id="theme" title="Тема: светлая / тёмная" aria-label="Переключить тему">◐</button>
+</header>
+<main>
+<section id="v-auth" class="view">
+  <form id="auth" class="card auth">
+    <h2 id="auth-title">Вход</h2>
+    <label class="f">Email<input class="f" type="email" name="email" autocomplete="username" required></label>
+    <label class="f" id="name-field" hidden>Имя<input class="f" name="display_name" autocomplete="nickname" maxlength="100"></label>
+    <label class="f">Пароль<input class="f" type="password" name="password" autocomplete="current-password" minlength="8" required></label>
+    <button class="btn" id="auth-submit">Войти</button>
+    <p id="auth-error" class="small bad"></p>
+    <p class="small muted"><button type="button" class="link" id="auth-switch">Нет аккаунта — зарегистрироваться</button></p>
+  </form>
+</section>
+<section id="v-rides" class="view">
+  <div class="card">
+    <div class="drop" id="drop">Брось сюда FIT-файлы или нажми, чтобы выбрать — LOPON возьмёт след<br><span class="small">можно несколько сразу — соберётся недельная сводка</span></div>
+    <input type="file" id="file" multiple accept=".fit,.FIT" hidden>
+    <div id="upres" class="small upres"></div>
+  </div>
+  <div class="card">
+    <h2>История заездов</h2>
+    <div class="scroll"><table id="rides"><thead><tr><th>Дата</th><th>Название</th><th>км</th><th>в движ.</th><th>ср/макс HR</th><th>EF</th><th>Дрейф</th><th>Z2-полка</th><th>≤Z2</th><th>Нагр.</th><th></th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+<section id="v-ride" class="view"><div id="ride"></div></section>
+<section id="v-week" class="view">
+  <div class="card"><label class="f">Неделя<select id="weeksel" class="f"></select></label></div>
+  <div id="week"></div>
+</section>
+<section id="v-trends" class="view"><div id="trends"></div></section>
+<section id="v-settings" class="view">
+  <div class="card"><h2>Настройки</h2><div id="sform" class="cols"></div>
+    <p id="zprev" class="small muted"></p>
+    <div class="actions">
+      <button class="btn" id="save">Сохранить</button>
+      <button class="btn sec" id="reanalyze">Пересчитать все заезды по текущим настройкам</button>
+      <button class="btn sec" id="reset">Вернуть значения по умолчанию</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Аккаунт</h2>
+    <form id="password" class="cols">
+      <label class="f">Текущий пароль<input class="f" type="password" name="current_password" autocomplete="current-password" required></label>
+      <label class="f">Новый пароль<input class="f" type="password" name="new_password" autocomplete="new-password" minlength="8" required></label>
+    </form>
+    <div class="actions">
+      <button class="btn sec" id="change-password">Сменить пароль</button>
+      <button class="btn danger" id="delete-account">Удалить аккаунт</button>
+    </div>
+  </div>
+</section>
+</main>
+<div id="toast"></div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

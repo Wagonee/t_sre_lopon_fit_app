@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: lopon-backend
+  threads:
+    virtual:
+      enabled: true
+  lifecycle:
+    timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:20s}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:5000}
+      data-source-properties:
+        reWriteBatchedInserts: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: ${DB_MIGRATE_ON_START:true}
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  servlet:
+    multipart:
+      max-file-size: ${MAX_UPLOAD_SIZE:20MB}
+      max-request-size: ${MAX_UPLOAD_SIZE:20MB}
+      file-size-threshold: ${MAX_UPLOAD_SIZE:20MB}
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  forward-headers-strategy: native
+  tomcat:
+    max-swallow-size: -1
+
+management:
+  server:
+    port: ${MANAGEMENT_PORT:8081}
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: lopon-backend
+    version: ${APP_VERSION:dev}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+  structured:
+    ecs:
+      service:
+        name: lopon-backend
+        version: ${APP_VERSION:dev}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /api/openapi.json
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /api/docs
+    persist-authorization: true
+
+lopon:
+  analysis-concurrency: ${ANALYSIS_CONCURRENCY:0}
+  jwt:
+    secret: ${JWT_SECRET}
+    issuer: ${JWT_ISSUER:lopon}
+    audience: ${JWT_AUDIENCE:lopon-api}
+    access-ttl: ${JWT_ACCESS_TTL:15m}
+    refresh-ttl: ${JWT_REFRESH_TTL:30d}
+  auth:
+    registration-enabled: ${AUTH_REGISTRATION_ENABLED:true}
+    cookie-secure: ${AUTH_COOKIE_SECURE:true}
+    max-failed-logins: ${AUTH_MAX_FAILED_LOGINS:5}
+    lock-duration: ${AUTH_LOCK_DURATION:1m}
+    refresh-reuse-grace: ${AUTH_REFRESH_REUSE_GRACE:10s}

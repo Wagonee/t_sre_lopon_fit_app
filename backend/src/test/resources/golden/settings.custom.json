@@ -1,0 +1,47 @@
+{
+ "athlete": {
+  "ftp_source": "fit",
+  "weight_kg": 72.5,
+  "hr_max": 190
+ },
+ "hr_zones": {
+  "mode": "manual",
+  "manual_bounds": [
+   110,
+   140,
+   155,
+   170
+  ]
+ },
+ "z2_band": {
+  "lo": 130,
+  "hi": 150
+ },
+ "analysis": {
+  "effort_hr_threshold": 150,
+  "altitude_smoothing": 5,
+  "speed_rolling": 7,
+  "series_max_points": 500,
+  "skip_first_minutes": 5,
+  "flat_min_minutes": 10,
+  "flat_net_climb_m_per_min": 6.0
+ },
+ "power": {
+  "zones_pct": [
+   0.6,
+   0.8,
+   1.0,
+   1.2
+  ],
+  "erg_block_min_pct_ftp": 0.7,
+  "erg_block_min_sec": 90
+ },
+ "temperature": {
+  "hot_above": 15.0,
+  "cold_below": 4.0
+ },
+ "time": {
+  "fit_is_local": false,
+  "offset_hours": 3
+ }
+}
